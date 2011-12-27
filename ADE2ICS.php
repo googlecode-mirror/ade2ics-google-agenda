@@ -6,11 +6,13 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.4
+*	Version 1.5
 *
 */
 
 /* ------------- Configuration ------------- */
+
+$vertion = "RC 1.5";
 
 $url = "http://ade52-ujf.grenet.fr";
 
@@ -24,11 +26,20 @@ if(isset($_GET['login']) && !empty($_GET['login'])){
 	$login = htmlspecialchars($_GET["login"]);
 }
 
+
 $password = "etudiant";
 if(isset($_GET['password']) && !empty($_GET['password'])){
 	$password = htmlspecialchars($_GET["password"]);
 }
 
+/*
+*  Les ressources concernées (séparés par des virgules). Une ressource peut être soit un enseignant,
+*  soit un groupe d'étudiants, soit une salle. Pour connaître les codes des ressources,
+*  il y a une astuce ... On ouvre ADE, et dans le cadre avec la sélection des groupes (ou ressources en général)
+*  on déplie ce qu'on veut connaître et on note les numéros des ressources que l'on veut dans 
+*  l'URL (resources=1613 dans l'exemple) . En faisant le test, on se rends compte que « ENEPS 1A » correspond à 1613,
+*  car en passant la souris sur « ENEPS 1A », la barre de statut affiche javascript:check(1613, 'true')
+*/
 $resources = "1613";
 if(isset($_GET['resources']) && !empty($_GET['resources'])){
 	$resources = htmlspecialchars($_GET["resources"]);
@@ -38,7 +49,6 @@ $pattern = <<<PATTERN
 #<tr><td><SPAN CLASS="value">([^>]*)</span></td><td><a href="javascript:ev\([^>]*\)">([^>]*)</a></td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td></tr>#
 PATTERN;
 
-$vertion = "RC 1.4";
 /* ---------------------------------------- */
 
 // initialisation de la session
