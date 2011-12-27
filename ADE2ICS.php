@@ -56,7 +56,7 @@ $ch = curl_init();
 
 // Connection
 // Configuration des options
-curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?projectId=".$projectid."&login=".$login."&password=".$password."&resources=".$resources."&days=0,1,2,3,4&displayConfId=3");
+curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days=0,1,2,3,4&displayConfId=3");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 1);
 $request=curl_exec($ch);
@@ -71,7 +71,7 @@ if(curl_errno($ch)){
 		curl_setopt($ch, CURLOPT_COOKIE,$cookie[0]);
 
 		// Toute les categories
-		curl_setopt($ch, CURLOPT_URL,$url."/ade/standard/gui/tree.jsp?selectId=".$resources);
+     curl_setopt($ch, CURLOPT_URL,$url."/ade/standard/gui/tree.jsp?selectId={$resources}");
 		curl_exec($ch);
 
 		// Confuguration des options du tableau
@@ -84,7 +84,7 @@ if(curl_errno($ch)){
 		// Recuperations des donnees
 		$semaine = array();
 		for($i=0;$i<=52;$i++){
-		  curl_setopt($ch, CURLOPT_URL,$url."/ade/custom/modules/plannings/info.jsp?week=".$i."&reset=true&order=slot");
+		  curl_setopt($ch, CURLOPT_URL,$url."/ade/custom/modules/plannings/info.jsp?week={$i}&reset=true&order=slot");
 		  $semaine[].=curl_exec($ch);
 		}
 		curl_close($ch);
@@ -93,6 +93,7 @@ if(curl_errno($ch)){
 		for ($i=0;$i<sizeof($semaine);$i++){
 				preg_match_all($pattern, $semaine[$i], $resultat[]);
 		}
+
 		unset($semaine);
 
 		for ($z=0;$z<count($resultat);$z++){
@@ -140,10 +141,10 @@ if(curl_errno($ch)){
 		for ($i=0;$i<count($t_date);$i++){
 
 			$date[$i] = $t_date[$i][10][0].$t_date[$i][8][0].$t_date[$i][9][0].$t_date[$i][3][0].$t_date[$i][4][0].$t_date[$i][5][0].$t_date[$i][6][0];
-				
+
 			$t_h_heure[$i] = $t_heure[$i][3][0].$t_heure[$i][4][0].$t_heure[$i][5][0];
 			$t_h_minute[$i] = $t_heure[$i][6][0];
-			
+
 			$heure[$i] = $t_h_heure[$i].$t_h_minute[$i]."00";
 			$dtstart[] = $date[$i]."T".$heure[$i];	
 		}
@@ -151,35 +152,34 @@ if(curl_errno($ch)){
 		// Formatage de duree ex: 1h30min
 		for ($i=0;$i<count($t_date);$i++){
 
-				if(($t_duree[$i][3][0].$t_duree[$i][7][0]) == NULL){
-					$t_duree[$i][3][0]='00';
-				}
-				
-				if(($t_duree[$i][2][0].$t_duree[$i][5][0]) == NULL){
-					$t_duree[$i][2][0]='00';
-				}
+      if(($t_duree[$i][3][0].$t_duree[$i][7][0]) == NULL){
+         $t_duree[$i][3][0]='00';
+      }
 
-				if (($t_duree[$i][2][0].$t_duree[$i][5][0]) < 10 &&($t_duree[$i][2][0].$t_duree[$i][5][0]) > 0){
-					$t_duree[$i][2][0] = "0".$t_duree[$i][2][0];
-				}
-			
+      if(($t_duree[$i][2][0].$t_duree[$i][5][0]) == NULL){
+         $t_duree[$i][2][0]='00';
+      }
+
+      if (($t_duree[$i][2][0].$t_duree[$i][5][0]) < 10 &&($t_duree[$i][2][0].$t_duree[$i][5][0]) > 0){
+         $t_duree[$i][2][0] = "0".$t_duree[$i][2][0];
+      }
+
 			$t_d_heure[$i] = $t_duree[$i][2][0].$t_duree[$i][5][0];
 			$t_d_minute[$i] = $t_duree[$i][3][0].$t_duree[$i][7][0];
-			
-			
+
 			$t2_d_heure[$i] = $t_h_heure[$i] + $t_d_heure[$i];
 			$t2_d_minute[$i] = $t_h_minute[$i] + $t_d_minute[$i];
-			
+
 			$t3_d_heure[$i] = ($t2_d_heure[$i] + (int)($t2_d_minute[$i]/60));
 			if($t3_d_heure[$i] < 10){
 				$t3_d_heure[$i] = "0".$t3_d_heure[$i];
 			}
-			
+
 			$t3_d_minute[$i] = $t2_d_minute[$i]%60;
 			if($t3_d_minute[$i] < 10){
 				$t3_d_minute[$i] = "0".$t3_d_minute[$i];
 			}
-			
+
 			$hd_duree[$i] = $t3_d_heure[$i].$t3_d_minute[$i]."00";
 			$dtend[] = $date[$i]."T".$hd_duree[$i]."Z";
 		}
@@ -201,14 +201,15 @@ if(curl_errno($ch)){
 				$description[] = "Etudiant : ".$resultat_c[$i][$n][18];
 				$description[$z] .= "\\nEnseignants : ".$resultat_c[$i][$n][19];
 				$description[$z] .= "\\nDuree : ".$resultat_c[$i][$n][5];
-				if($note[$z] != '')
-					$description[$z] .= "\\nNote : ".$note[$z];
+        if($note[$z] != ''){
+          $description[$z] .= "\\nNote : ".$note[$z];
+        }
         $description[$z] .= "\\n\\nMise à jour le ".date("d/m/Y")." à ".date("H:i:s");
 				$z++;
 				
 			}
 		}
-		 
+
 		// Formtage Ical
 		$z=0;
 		for ($i=0;$i<count($resultat_c);$i++){
@@ -216,10 +217,10 @@ if(curl_errno($ch)){
 			
 				// Formtage date de creation
 				$created = date("Ymd")."T".date("His")."Z";
-				
+
 				// Formatage UID
 				$UID = md5($dtstart[$z].$dtend[$z].$created);
-				
+
 				$ical[] = "BEGIN:VEVENT\n";
 				$ical[$z] .= "DTSTART;TZID=Europe/Paris:{$dtstart[$z]}\n";
 				$ical[$z] .= "DTEND;TZID=Europe/Paris:{$dtend[$z]}\n";
@@ -237,7 +238,7 @@ if(curl_errno($ch)){
 				$z++;
 			}
 		}
-		
+
 		unset($t_date, 
 		$t_heure, 
 		$dtstart, 
@@ -260,13 +261,11 @@ if(curl_errno($ch)){
 		$t_h_heure, 
 		$t_h_minute);
 		
-
 		// Creation du ICS
-		header('Content-type: text/calendar; charset=iso-8859-1');
+		header("Content-type: text/calendar; charset=iso-8859-1");
 		header("Content-Disposition: attachment; filename=agenda{$created}{$resources}.ics");
 		echo "BEGIN:VCALENDAR\n";
 		echo "PRODID:-//DAVIN Alexis//A.Davin ADE2ICS {$vertion}//FR\n";
-		// echo "PRODID:-//Google Inc//Google Calendar 70.9054//EN\n";
 		echo "VERSION:{$vertion}\n";
 		echo "CALSCALE:GREGORIAN\n";
 		echo "METHOD:PUBLISH\n";
@@ -281,9 +280,8 @@ if(curl_errno($ch)){
 		echo "END:VCALENDAR";
     unset($ical, $agenda);
 	}else{
-		echo "Erreur : URL invalid\n<br>URL : ".$url."/ade/custom/modules/plannings/direct_planning.jsp?projectId=".$projectid."&login=".$login."&password=".$password."&resources=".$resources."&days=0,1,2,3,4&displayConfId=3";
+     echo "Erreur : URL invalid\n<br>URL : {$url}/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days=0,1,2,3,4&displayConfId=3";
 	}
-}// Fin de curl_errno
-
+} // Fin de curl_errno
 // Enjoy !!!
 ?>
