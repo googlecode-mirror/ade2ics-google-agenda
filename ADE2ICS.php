@@ -6,7 +6,7 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.2
+*	Version 1.3
 *
 */
 
@@ -38,7 +38,7 @@ $pattern = <<<PATTERN
 #<tr><td><SPAN CLASS="value">([^>]*)</span></td><td><a href="javascript:ev\([^>]*\)">([^>]*)</a></td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td></tr>#
 PATTERN;
 
-$vertion = "RC 1.2";
+$vertion = "RC 1.3";
 /* ---------------------------------------- */
 
 // initialisation de la session
@@ -194,8 +194,9 @@ if(curl_errno($ch)){
 				$description[$z] .= "\\nDuree : ".$resultat_c[$i][$n][5];
 				if($note[$z] != '')
 					$description[$z] .= "\\nNote : ".$note[$z];
+        $description[$z] .= "\\n\\nMise à jour le ".date("d/m/Y")." à ".date("H:i:s");
 				$z++;
-				$description[$z] .= "\\n\\nMise à jour le ".date("d/m/Y")." à ".date("H:i:s");
+				
 			}
 		}
 		 
