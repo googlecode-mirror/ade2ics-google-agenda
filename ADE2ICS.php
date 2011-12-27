@@ -6,7 +6,7 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.3
+*	Version 1.4
 *
 */
 
@@ -38,7 +38,7 @@ $pattern = <<<PATTERN
 #<tr><td><SPAN CLASS="value">([^>]*)</span></td><td><a href="javascript:ev\([^>]*\)">([^>]*)</a></td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td><td>([^>]*)</td></tr>#
 PATTERN;
 
-$vertion = "RC 1.3";
+$vertion = "RC 1.4";
 /* ---------------------------------------- */
 
 // initialisation de la session
@@ -256,7 +256,7 @@ if(curl_errno($ch)){
 		header('Content-type: text/calendar; charset=iso-8859-1');
 		header("Content-Disposition: attachment; filename=agenda{$created}{$resources}.ics");
 		echo "BEGIN:VCALENDAR\n";
-		echo "PRODID:-//DAVIN Alexis//A.Davin ADE52toICS {$vertion}//FR\n";
+		echo "PRODID:-//DAVIN Alexis//A.Davin ADE2ICS {$vertion}//FR\n";
 		// echo "PRODID:-//Google Inc//Google Calendar 70.9054//EN\n";
 		echo "VERSION:{$vertion}\n";
 		echo "CALSCALE:GREGORIAN\n";
