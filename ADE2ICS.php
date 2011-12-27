@@ -6,13 +6,13 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.5
+*	Version 1.6
 *
 */
 
 /* ------------- Configuration ------------- */
 
-$vertion = "RC 1.5";
+$vertion = "RC 1.6";
 
 $url = "http://ade52-ujf.grenet.fr";
 
@@ -109,8 +109,6 @@ if(curl_errno($ch)){
 		$resultat_c = array_merge($resultat_c);
 
 		// Formatage date 20110906T070000Z
-		$t_date = array();
-		$t_heure = array();
 		$dtstart = array();
 		$duree = array();
 		$dtend = array();
@@ -121,6 +119,7 @@ if(curl_errno($ch)){
 				preg_match_all("`^(((0[1-9])|(1\d)|(2\d)|(3[0-1]))\/((0[1-9])|(1[0-2]))\/(\d{4}))`", $resultat_c[$z][$y][0], $t_date[]);
 			}
 		}
+
 		//Traitement de l'heure ex: 08H00
 		for ($z=0;$z<count($resultat_c);$z++){
 			for ($y=0;$y<count($resultat_c[$z]);$y++){
