@@ -6,7 +6,7 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.1
+*	Version 1.2
 *
 */
 
