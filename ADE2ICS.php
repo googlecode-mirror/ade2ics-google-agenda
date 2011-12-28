@@ -131,7 +131,7 @@ if(curl_errno($ch)){
 		//Traitement de duree ex: 1h30min
 		for ($z=0;$z<count($resultat_c);$z++){
 			for ($y=0;$y<count($resultat_c[$z]);$y++){
-				preg_match_all("`^(([0-9])h([0-5]\d))|(([0-9])[H|h])|(([0-5]\d)[MIN|min])`", $resultat_c[$z][$y][5], $t_duree[]);
+				preg_match_all("`^(([0-9])[H|h])([0-5]\d))|(([0-9])[H|h])|(([0-5]\d)[MIN|min])`", $resultat_c[$z][$y][5], $t_duree[]);
 			}
 		}
 
