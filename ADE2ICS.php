@@ -6,13 +6,13 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.6
+*	Version 1.7
 *
 */
 
 /* ------------- Configuration ------------- */
 
-$vertion = "RC 1.6";
+$vertion = "RC 1.7";
 
 $url = "http://ade52-ujf.grenet.fr";
 
@@ -28,7 +28,7 @@ if(isset($_GET['login']) && !empty($_GET['login'])){
 
 
 $password = "etudiant";
-if(isset($_GET['password']) && !empty($_GET['password'])){
+if(isset($_GET['password'])){
 	$password = htmlspecialchars($_GET["password"]);
 }
 
