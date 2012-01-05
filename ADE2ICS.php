@@ -6,13 +6,13 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.7
+*	Version 1.8
 *
 */
 
 /* ------------- Configuration ------------- */
 
-$vertion = "RC 1.7";
+$vertion = "RC 1.8";
 
 $url = "http://ade52-ujf.grenet.fr";
 
@@ -131,7 +131,7 @@ if(curl_errno($ch)){
 		//Traitement de duree ex: 1h30min
 		for ($z=0;$z<count($resultat_c);$z++){
 			for ($y=0;$y<count($resultat_c[$z]);$y++){
-				preg_match_all("`^(([0-9])[H|h])([0-5]\d))|(([0-9])[H|h])|(([0-5]\d)[MIN|min])`", $resultat_c[$z][$y][5], $t_duree[]);
+				preg_match_all("`^(([0-9])[H|h]([0-5]\d)[MIN|min])|(([0-9])[H|h])|(([0-5]\d)[MIN|min])`", $resultat_c[$z][$y][5], $t_duree[]);
 			}
 		}
 
