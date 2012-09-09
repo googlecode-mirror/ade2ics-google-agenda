@@ -6,17 +6,17 @@ set_time_limit(120);
 *	email djmemo38@gmail.com
 *	Le 27/12/2011
 *	
-*	Version 1.8
+  *	Version 1.9 (09/09/2012)
 *
 */
 
 /* ------------- Configuration ------------- */
 
-$vertion = "RC 1.8";
+$vertion = "RC 1.9";
 
 $url = "http://ade52-ujf.grenet.fr";
 
-$projectid = "144";
+$projectid = "";
 if(isset($_GET['projectid']) && !empty($_GET['projectid'])){
 	$projectid= htmlspecialchars($_GET["projectid"]);
 }
@@ -40,9 +40,21 @@ if(isset($_GET['password'])){
 *  l'URL (resources=1613 dans l'exemple) . En faisant le test, on se rends compte que « ENEPS 1A » correspond à 1613,
 *  car en passant la souris sur « ENEPS 1A », la barre de statut affiche javascript:check(1613, 'true')
 */
-$resources = "1613";
+$resources = "";
 if(isset($_GET['resources']) && !empty($_GET['resources'])){
 	$resources = htmlspecialchars($_GET["resources"]);
+}
+
+/*
+*  0 = Lundi
+*  1 = Mardi
+*  2 = Jeudi
+*  ...
+*  6 = Dimanche
+*/
+$days = "0,1,2,3,4,5";
+if(isset($_GET['days']) && !empty($_GET['days'])){
+	$days = htmlspecialchars($_GET["days"]);
 }
 
 $pattern = <<<PATTERN
@@ -56,7 +68,7 @@ $ch = curl_init();
 
 // Connection
 // Configuration des options
-curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days=0,1,2,3,4&displayConfId=3");
+  curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days={$days}&displayConfId=3");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 1);
 $request=curl_exec($ch);
@@ -262,16 +274,20 @@ if(curl_errno($ch)){
 		$t_h_minute);
 		
 		// Creation du ICS
-		header("Content-type: text/calendar; charset=iso-8859-1");
-		header("Content-Disposition: attachment; filename=agenda{$created}{$resources}.ics");
-		echo "BEGIN:VCALENDAR\n";
-		echo "PRODID:-//DAVIN Alexis//A.Davin ADE2ICS {$vertion}//FR\n";
-		echo "VERSION:{$vertion}\n";
-		echo "CALSCALE:GREGORIAN\n";
-		echo "METHOD:PUBLISH\n";
-		echo "X-WR-CALNAME:ADE Agenda\n";
-		echo "X-WR-TIMEZONE:Europe/Paris\n";
-		echo "X-WR-CALDESC:Agenda ADE52 id:{$resources}\n";
+    $resources_2 = str_replace(',', '-', $resources);
+    $resources_3 = str_replace(',', ' ', $resources);
+
+    header("Content-type: text/calendar; charset=iso-8859-1");
+    header("Content-Disposition: attachment; filename=agenda{$created}{$resources_2}.ics");
+    echo "BEGIN:VCALENDAR\n";
+    echo "PRODID:-//DAVIN Alexis//A.Davin ADE2ICS {$vertion}//FR\n";
+    echo "VERSION:{$vertion}\n";
+    echo "CALSCALE:GREGORIAN\n";
+    echo "METHOD:PUBLISH\n";
+    echo "X-WR-CALNAME:ADE Agenda\n";
+    echo "X-WR-TIMEZONE:Europe/Paris\n";
+    echo "X-WR-CALDESC:Agenda ADE52 id:{$resources_3}\n";
+
 
 		foreach ($ical as $agenda) {
 			echo $agenda;
@@ -280,7 +296,7 @@ if(curl_errno($ch)){
 		echo "END:VCALENDAR";
     unset($ical, $agenda);
 	}else{
-     echo "Erreur : URL invalid\n<br>URL : {$url}/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days=0,1,2,3,4&displayConfId=3";
+     echo "Erreur : URL invalid\n<br>URL : {$url}/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days={$days}&displayConfId=3";
 	}
 } // Fin de curl_errno
 // Enjoy !!!
