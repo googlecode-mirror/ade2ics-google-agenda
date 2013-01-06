@@ -50,7 +50,7 @@ if(isset($_GET['resources']) && !empty($_GET['resources'])){
 *  1 = Mardi
 *  2 = Jeudi
 *  ...
-*  6 = Dimanche
+*  5 = Samedi
 */
 $days = "0,1,2,3,4,5";
 if(isset($_GET['days']) && !empty($_GET['days'])){
@@ -66,7 +66,7 @@ PATTERN;
 // initialisation de la session
 $ch = curl_init();
 
-// Connection
+// Connexion
 // Configuration des options
   curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?projectId={$projectid}&login={$login}&password={$password}&resources={$resources}&days={$days}&displayConfId=3");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -86,7 +86,7 @@ if(curl_errno($ch)){
      curl_setopt($ch, CURLOPT_URL,$url."/ade/standard/gui/tree.jsp?selectId={$resources}");
 		curl_exec($ch);
 
-		// Confuguration des options du tableau
+		// Configuration des options du tableau
 		$data = "showTabActivity=true&showTabWeek=true&showTabDay=true&showTabStage=true&showTabDate=true&showTabHour=true&aC=true&aTy=true&aUrl=true&showTabDuration=true&aSize=true&aMx=true&aSl=true&aCx=true&aCy=true&aCz=true&aTz=true&aN=true&aNe=true";
 		curl_setopt($ch, CURLOPT_URL, $url."/ade/custom/modules/plannings/direct_planning.jsp?keepSelection&showTree=true");
 		curl_setopt($ch, CURLOPT_POST, 1);
